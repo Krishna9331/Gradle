@@ -45,9 +45,9 @@ helloWorld
 gradle tasks --all
 
 #also we can run a task as below
-gradle hellowWorld
+gradle hellowWorld,
  or 
-gradle hWorld
+gradle hWorld,
  or
 gradle hW
 
