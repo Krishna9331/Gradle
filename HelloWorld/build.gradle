@@ -3,3 +3,26 @@ task helloWorld{
    println 'Hello World!'
  }
 }
+
+task startSession << {
+  chant()
+}
+
+def chant(){
+ant.echo(message: 'Repeat after me....') //ant gives direct access to Ant tasks.
+}
+
+/*
+Groovy’s times method extension on java.lang.Number creates new tasks within a loop
+and automatically exposes an implicit variable named it to indicate the loop iteration index
+*/
+3.times{                          
+ task "gradle$it" <<{
+   println 'Gradle Rocks'
+  }
+}
+
+//gradle0, gradle1 and gradle2 is replace dynamically the variable $it
+gradle0.dependsOn startSession
+gradle2.dependsOn gradle1, gradle0
+task groupTherapy(dependsOn: gradle2)
