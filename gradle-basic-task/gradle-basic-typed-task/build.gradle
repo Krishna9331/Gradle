@@ -1,0 +1,44 @@
+group 'com.gradle.task'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+def contentSpec = copySpec {
+    from 'src/main/resources/source'
+    exclude { it.file.name.startsWith('IMG') }
+}
+
+//copy is types task defined in gradle
+task copyImages(type: Copy) {
+    exclude 'image4.jpg', 'image2.jpg'
+    from 'src/main/resources/source'
+    into 'src/main/resources/destination'
+
+}
+
+//task with some externalized specification
+task copyImages1(type: Copy) {
+    with contentSpec
+    into 'src/main/resources/destination1'
+
+}
+
+//file expansion and replacing the text
+task copyConfig(type: Copy) {
+    include 'web.xml'
+    from 'src/main/resources'
+    into 'src/main/resources/config'
+    expand(
+            [servletName: 'HelloServlet']
+    )
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

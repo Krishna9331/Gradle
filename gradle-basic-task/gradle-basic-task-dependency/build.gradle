@@ -1,0 +1,70 @@
+group 'com.gradle.task'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+task TaskA << { println "Task A" }
+task TaskB << { println "Task B" }
+task TaskC << { println "Task C" }
+task TaskD << { println "Task D" }
+task TaskE << { println "Task E" }
+task TaskF << { println "Task F" }
+
+// run with gradle -q to avoid gradle's own output like :gradle-basic-task-dependency:TaskB
+
+TaskA.dependsOn TaskB
+/*
+no order will be maintained
+will not assure any ordering
+TaskA.dependsOn TaskD, TaskC */
+TaskA.dependsOn TaskC, TaskD
+
+TaskC.dependsOn TaskE
+TaskD.dependsOn TaskE
+
+TaskA.dependsOn TaskE
+
+task TaskG {
+    dependsOn TaskE
+    doLast {
+        println "This is Task G"
+    }
+}
+
+TaskA.dependsOn TaskG
+
+//ordering the exection
+
+TaskB.mustRunAfter TaskC, TaskD
+
+//below will fail
+//TaskB.mustRunAfter TaskB
+
+//below will be ignored
+TaskB.shouldRunAfter TaskB
+
+//This will run after E not matter F is called or not unlike mustRunAfter
+TaskE.finalizedBy TaskF
+
+task Task1 << {
+    println "Task 1"
+}
+
+task Task2 << {
+    println "Task 2"
+}
+
+//below will not make any difference until we run both task together 'gradle Task1 Task2' or 'gradle Task2 Task1'
+Task1.mustRunAfter Task2
+//below will be ignored
+Task2.shouldRunAfter Task1
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

@@ -1,29 +1,61 @@
-# Eclipse
-.classpath
 .project
+.classpath
+.gradle/
 .settings/
+build/
+target/
+*/bin/
+gradle/
+*.springBeans
 
-# Intellij
-.idea/
+
+### JetBrains template
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
+
 *.iml
+
+## Directory-based project format:
+.idea/
+# if you remove the above rule, at least ignore the following:
+
+# User-specific stuff:
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+
+# Sensitive or high-churn files:
+# .idea/dataSources.ids
+# .idea/dataSources.xml
+# .idea/sqlDataSources.xml
+# .idea/dynamic.xml
+# .idea/uiDesigner.xml
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+# Mongo Explorer plugin:
+# .idea/mongoSettings.xml
+
+## File-based project format:
+*.ipr
 *.iws
 
-# build artifacts
+## Plugin-specific files:
+
+# IntelliJ
 out/
 
-# Mac
-.DS_Store
+# mpeltonen/sbt-idea plugin
+.idea_modules/
 
-# Maven
-log/
-target/
+# JIRA plugin
+atlassian-ide-plugin.xml
 
-#gradle
-#build/
-#target/
-#.gradle/
-#gradle/
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
 
 
-
-
+/bin/

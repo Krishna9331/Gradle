@@ -1,0 +1,4 @@
+rootProject.name = 'gradle-basic-task'
+include 'gradle-basic-task-dependency'
+include 'gradle-basic-typed-task'
+

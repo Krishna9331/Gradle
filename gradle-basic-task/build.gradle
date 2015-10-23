@@ -1,0 +1,88 @@
+group 'com.gradle.task'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+//variable available to this build file only - internal property
+def projectVersion = "1.0"
+
+//variable available to all child build file also - external property
+project.ext.libVersion = "2.0"
+ext.internalDependency = "3.0"
+
+//Task declaration
+project.task("Task1")
+
+task("Task2")
+
+task "Task3"
+
+task Task4
+
+//Task description, it is part of configuration phase
+Task4.description = "Task 4 Description"
+
+//task action
+Task4.doLast { println "This is Task 4 internal dependency $internalDependency" }
+
+//get attached to doLast action
+Task3 << { println "This is Task 3" }
+
+//inline declation and action
+task Task5 << { println "This is Task 5" }
+
+//adding action
+Task5 << { println "Another closure Task 5 version $projectVersion" }
+
+//configure task at one shot
+
+task Task6 {
+    //it is part of configuration phase
+    description "Task 6 description"
+    //below are part of execution phase
+    doFirst {
+        println "Task 6 - First"
+    }
+    doLast {
+        println "This is Task 6 lib $project.ext.libVersion"
+    }
+}
+
+Task6.doFirst {
+    println "Another Task 6 - First"
+}
+
+// task's dependency decides at configuration phase
+
+Task6.dependsOn Task5
+Task6.dependsOn Task3
+Task5.dependsOn Task4
+
+task Task7 {
+    description "Task 7 description"
+    dependsOn Task5
+    doFirst {
+        println "Task 7 - First"
+    }
+    doLast {
+        println "This is Task 7"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+/*This task carry the version of gradle along with project
+*hence if anyone download project can just run 'gradlew build'
+* it will help us to get rid of version mismatch
+* */
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.8'
+}
